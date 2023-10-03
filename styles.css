@@ -205,4 +205,12 @@ td p {
     background-image: url(image.jpg);
     background-size: cover;
     background-position: center center;
-  }
+}
+
+#user0 {
+    float: left;
+}
+
+#user1 {
+    float: right;
+}

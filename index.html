@@ -3,19 +3,38 @@
 
     <head>
         <meta charset="UTF-8">
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+        <!-- <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>"> -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Welcome to Kawah!</title>
         <link rel="stylesheet" href="styles.css">
+        <!-- <script src="index.js"></script> -->
     </head>
 
     <body>
 
+        <div class="background-image">
+            <img src="305_kawah_banner.png" alt="Kawah icon on banner">
+        </div>
+
+        <div id="welcome-section" class="light-section">
+            <div id="header-section">
+                <h1 id="main-header">Welcome to Kawah</h1>
+                <img src="kawah_logo.png" alt="Image of the Kawah Logo">
+                <!-- <h2>Because making a schedule should be painless!</h2> -->
+                <div id="user0"></div>
+                <div id="user1"></div>
+            </div>
+        </div>
+
+        <div id="test-app" class="light-section">
+            <h1 class="center-header">Test out Kawah!</h1>
+            <iframe src="https://thunkable.site/w/dLpbd0iNG1RGdCOCBvu3U" title="Kawah" frameborder="0"></iframe>
+        </div>
+
         <script type="module">
             // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
-            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+            import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
             // TODO: Add SDKs for Firebase products that you want to use
             // https://firebase.google.com/docs/web/setup#available-libraries
           
@@ -32,41 +51,35 @@
               measurementId: "G-REC45T5ZML"
             };
           
-                // Initialize Firebase
+            // Initialize Firebase
             const app = initializeApp(firebaseConfig);
-            const database = getDatabase(app);
-            const analytics = getAnalytics(app);
+            const db = getDatabase(app);
             
-            const userRef = ref(database, "https://profileapp-bf3dd-default-rtdb.firebaseio.com/0");
+            const dbRef = ref(db, "users");
 
-            userRef.get().then((snapshot) => {
-                const user = snapshot.val();
-                console.log(user);
-                console.log(user.name);
-                console.log(user.image);
-                document.getElementById("names").value = user.name;
+            onValue(dbRef, (snapshot) => {
+                const userData = snapshot.val();
+                console.log(userData);
+                // console.log(userData[0].name)
+
+                const user0name = document.createElement("h2");
+                user0name.innerText = userData[0].name;
+                document.getElementById("user0").appendChild(user0name);
+
+                const user0image = document.createElement("img");
+                user0image.src = userData[0].image;
+                document.getElementById("user0").appendChild(user0image);
+
+                const user1name = document.createElement("h2");
+                user1name.innerText = userData[1].name;
+                document.getElementById("user1").appendChild(user1name);
+
+                const user1image = document.createElement("img");
+                user1image.src = userData[1].image;
+                document.getElementById("user1").appendChild(user1image);
             });
-
-        </script>
-
-        <div class="background-image">
-            <img src="305_kawah_banner.png" alt="Kawah icon on banner">
-        </div>
-
-        <div id="welcome-section" class="light-section">
-            <div id="header-section">
-                <h1 id="main-header">Welcome to Kawah</h1>
-                <img src="kawah_logo.png" alt="Image of the Kawah Logo">
-                <!-- <h2>Because making a schedule should be painless!</h2> -->
-                <h2>Names</h2>
-                <div id="names"></div>
-            </div>
-        </div>
-
-        <div id="test-app" class="light-section">
-            <h1 class="center-header">Test out Kawah!</h1>
-            <iframe src="https://thunkable.site/w/dLpbd0iNG1RGdCOCBvu3U" title="Kawah" frameborder="0"></iframe>
-        </div>
+            
+          </script>
         
     </body>
 

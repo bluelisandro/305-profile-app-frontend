@@ -41,6 +41,9 @@
 
             userRef.get().then((snapshot) => {
                 const user = snapshot.val();
+                console.log(user);
+                console.log(user.name);
+                console.log(user.image);
                 document.getElementById("names").value = user.name;
             });
 
